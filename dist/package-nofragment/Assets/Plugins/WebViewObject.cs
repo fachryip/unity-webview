@@ -95,10 +95,10 @@ public class WebViewObject : MonoBehaviour
             return;
         if (!paused && mIsKeyboardVisible)
         {
-            webView.Call("SetVisibility", false);
+            webView.Call(WebViewConst.SetVisibility, false);
             mResumedTimestamp = Time.realtimeSinceStartup;
         }
-        webView.Call("OnApplicationPause", paused);
+        webView.Call(WebViewConst.OnApplicationPause, paused);
     }
 
     void Update()
@@ -114,44 +114,44 @@ public class WebViewObject : MonoBehaviour
             if (androidNetworkReachability0 != androidNetworkReachability)
             {
                 androidNetworkReachability0 = androidNetworkReachability;
-                webView.Call("SetNetworkAvailable", androidNetworkReachability != NetworkReachability.NotReachable);
+                webView.Call(WebViewConst.SetNetworkAvailable, androidNetworkReachability != NetworkReachability.NotReachable);
             }
         }
 #endif
         if (mResumedTimestamp != 0.0f && Time.realtimeSinceStartup - mResumedTimestamp > 0.5f)
         {
             mResumedTimestamp = 0.0f;
-            webView.Call("SetVisibility", mVisibility);
+            webView.Call(WebViewConst.SetVisibility, mVisibility);
         }
         for (;;) {
             if (webView == null)
                 break;
-            var s = webView.Call<String>("GetMessage");
+            var s = webView.Call<String>(WebViewConst.GetMessage);
             if (s == null)
                 break;
             var i = s.IndexOf(':', 0);
             if (i == -1)
                 continue;
             switch (s.Substring(0, i)) {
-            case "CallFromJS":
+            case WebViewConst.CallFromJS:
                 CallFromJS(s.Substring(i + 1));
                 break;
-            case "CallOnError":
+            case WebViewConst.CallOnError:
                 CallOnError(s.Substring(i + 1));
                 break;
-            case "CallOnHttpError":
+            case WebViewConst.CallOnHttpError:
                 CallOnHttpError(s.Substring(i + 1));
                 break;
-            case "CallOnLoaded":
+            case WebViewConst.CallOnLoaded:
                 CallOnLoaded(s.Substring(i + 1));
                 break;
-            case "CallOnStarted":
+            case WebViewConst.CallOnStarted:
                 CallOnStarted(s.Substring(i + 1));
                 break;
-            case "CallOnHooked":
+            case WebViewConst.CallOnHooked:
                 CallOnHooked(s.Substring(i + 1));
                 break;
-            case "SetKeyboardVisible":
+            case WebViewConst.SetKeyboardVisible:
                 SetKeyboardVisible(s.Substring(i + 1));
                 break;
             }
@@ -166,7 +166,7 @@ public class WebViewObject : MonoBehaviour
             return;
         }
         bool isKeyboardVisible0 = mIsKeyboardVisible;
-        mIsKeyboardVisible = (pIsVisible == "true");
+        mIsKeyboardVisible = (pIsVisible == WebViewConst.true);
         if (mIsKeyboardVisible != isKeyboardVisible0 || mIsKeyboardVisible)
         {
             SetMargins(mMarginLeft, mMarginTop, mMarginRight, mMarginBottom, mMarginRelative);
@@ -1286,19 +1286,19 @@ public class WebViewObject : MonoBehaviour
             if (s == null)
                 break;
             switch (s[0]) {
-            case 'E':
+            case WebViewConst.E:
                 CallOnError(s.Substring(1));
                 break;
-            case 'S':
+            case WebViewConst.S:
                 CallOnStarted(s.Substring(1));
                 break;
-            case 'L':
+            case WebViewConst.L:
                 CallOnLoaded(s.Substring(1));
                 break;
-            case 'J':
+            case WebViewConst.J:
                 CallFromJS(s.Substring(1));
                 break;
-            case 'H':
+            case WebViewConst.H:
                 CallOnHooked(s.Substring(1));
                 break;
             }
