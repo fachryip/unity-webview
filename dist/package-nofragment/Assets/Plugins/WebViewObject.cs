@@ -166,7 +166,7 @@ public class WebViewObject : MonoBehaviour
             return;
         }
         bool isKeyboardVisible0 = mIsKeyboardVisible;
-        mIsKeyboardVisible = (pIsVisible == WebViewConst.true);
+        mIsKeyboardVisible = (pIsVisible == "true");
         if (mIsKeyboardVisible != isKeyboardVisible0 || mIsKeyboardVisible)
         {
             SetMargins(mMarginLeft, mMarginTop, mMarginRight, mMarginBottom, mMarginRelative);

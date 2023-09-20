@@ -17,6 +17,4 @@ public static class WebViewConst
     public const char L = 'L';
     public const char J = 'J';
     public const char H = 'H';
-
-    public const string true = "true";
 }
