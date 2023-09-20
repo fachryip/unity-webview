@@ -186,10 +186,10 @@ public class WebViewObject : MonoBehaviour
         else
         {
             int keyboardHeight = 0;
-            using(AndroidJavaClass UnityClass = new AndroidJavaClass(WebViewConst.Class_UnityPlayer));
+            using(AndroidJavaClass UnityClass = new AndroidJavaClass(WebViewConst.Class_UnityPlayer))
             {
                 AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>(WebViewConst.Function_CurrentActivity).Get<AndroidJavaObject>(WebViewConst.Variable_UnityPlayer).Call<AndroidJavaObject>(WebViewConst.Function_GetView);
-                using(AndroidJavaObject Rct = new AndroidJavaObject(WebViewConst.Class_GraphicRect));
+                using(AndroidJavaObject Rct = new AndroidJavaObject(WebViewConst.Class_GraphicRect))
                 {
                     View.Call(WebViewConst.Function_DisplayFrame, Rct);
                     keyboardHeight = mWindowVisibleDisplayFrameHeight - Rct.Call<int>(WebViewConst.Variable_Height);
