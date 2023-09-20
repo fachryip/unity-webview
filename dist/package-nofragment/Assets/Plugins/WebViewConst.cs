@@ -1,9 +1,5 @@
 public static class WebViewConst
 {
-    public const string SetVisibility = "SetVisibility";
-    public const string OnApplicationPause = "OnApplicationPause";
-    public const string SetNetworkAvailable = "SetNetworkAvailable";
-    public const string GetMessage = "GetMessage";
     public const string CallFromJS = "CallFromJS";
     public const string CallOnError = "CallOnError";
     public const string CallOnHttpError = "CallOnHttpError";
@@ -23,6 +19,10 @@ public static class WebViewConst
     public const string Class_GraphicRect = "android.graphics.Rect";
     public const string Class_CWebViewPlugin = "net.gree.unitywebview.CWebViewPlugin";
 
+    public const string Function_SetVisibility = "SetVisibility";
+    public const string Function_OnApplicationPause = "OnApplicationPause";
+    public const string Function_SetNetworkAvailable = "SetNetworkAvailable";
+    public const string Function_GetMessage = "GetMessage";    
     public const string Function_CurrentActivity = "currentActivity";
     public const string Function_GetView = "getView";
     public const string Function_DisplayFrame = "getWindowVisibleDisplayFrame";

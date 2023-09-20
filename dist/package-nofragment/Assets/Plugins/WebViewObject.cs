@@ -95,10 +95,10 @@ public class WebViewObject : MonoBehaviour
             return;
         if (!paused && mIsKeyboardVisible)
         {
-            webView.Call(WebViewConst.SetVisibility, false);
+            webView.Call(WebViewConst.Function_SetVisibility, false);
             mResumedTimestamp = Time.realtimeSinceStartup;
         }
-        webView.Call(WebViewConst.OnApplicationPause, paused);
+        webView.Call(WebViewConst.Function_OnApplicationPause, paused);
     }
 
     void Update()
@@ -114,19 +114,19 @@ public class WebViewObject : MonoBehaviour
             if (androidNetworkReachability0 != androidNetworkReachability)
             {
                 androidNetworkReachability0 = androidNetworkReachability;
-                webView.Call(WebViewConst.SetNetworkAvailable, androidNetworkReachability != NetworkReachability.NotReachable);
+                webView.Call(WebViewConst.Function_SetNetworkAvailable, androidNetworkReachability != NetworkReachability.NotReachable);
             }
         }
 #endif
         if (mResumedTimestamp != 0.0f && Time.realtimeSinceStartup - mResumedTimestamp > 0.5f)
         {
             mResumedTimestamp = 0.0f;
-            webView.Call(WebViewConst.SetVisibility, mVisibility);
+            webView.Call(WebViewConst.Function_SetVisibility, mVisibility);
         }
         for (;;) {
             if (webView == null)
                 break;
-            var s = webView.Call<String>(WebViewConst.GetMessage);
+            var s = webView.Call<String>(WebViewConst.Function_GetMessage);
             if (s == null)
                 break;
             var i = s.IndexOf(':', 0);
@@ -1020,7 +1020,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call(WebViewConst.Reload);
+        webView.Call(WebViewConst.Function_Reload);
 #endif
     }
 
@@ -1206,7 +1206,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID && !UNITY_EDITOR
         if (webView == null)
             return "";
-        return webView.Call<string>(WebViewConst.GetCookies, url);
+        return webView.Call<string>(WebViewConst.Function_GetCookies, url);
 #else
         //TODO: UNSUPPORTED
         return "";
