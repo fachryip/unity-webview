@@ -32,7 +32,6 @@ public static class WebViewConst
     public const string Function_Pause = "Pause";
     public const string Function_Resume = "Resume";
     public const string Function_SetMargins = "SetMargins";
-    public const string Function_SetVisibility = "SetVisibility";
     public const string Function_SetScrollbarsVisibility = "SetScrollbarsVisibility";
     public const string Function_SetInteractionEnabled = "SetInteractionEnabled";
     public const string Function_SetAlertDialogEnabled = "SetAlertDialogEnabled";
