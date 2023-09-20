@@ -166,7 +166,7 @@ public class WebViewObject : MonoBehaviour
             return;
         }
         bool isKeyboardVisible0 = mIsKeyboardVisible;
-        mIsKeyboardVisible = (pIsVisible == "true");
+        mIsKeyboardVisible = (pIsVisible == WebViewConst.True);
         if (mIsKeyboardVisible != isKeyboardVisible0 || mIsKeyboardVisible)
         {
             SetMargins(mMarginLeft, mMarginTop, mMarginRight, mMarginBottom, mMarginRelative);
@@ -186,13 +186,13 @@ public class WebViewObject : MonoBehaviour
         else
         {
             int keyboardHeight = 0;
-            using(AndroidJavaClass UnityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            using(AndroidJavaClass UnityClass = new AndroidJavaClass(WebViewConst.Class_UnityPlayer));
             {
-                AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer").Call<AndroidJavaObject>("getView");
-                using(AndroidJavaObject Rct = new AndroidJavaObject("android.graphics.Rect"))
+                AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>(WebViewConst.Function_CurrentActivity).Get<AndroidJavaObject>(WebViewConst.Variable_UnityPlayer).Call<AndroidJavaObject>(WebViewConst.Function_GetView);
+                using(AndroidJavaObject Rct = new AndroidJavaObject(WebViewConst.Class_GraphicRect));
                 {
-                    View.Call("getWindowVisibleDisplayFrame", Rct);
-                    keyboardHeight = mWindowVisibleDisplayFrameHeight - Rct.Call<int>("height");
+                    View.Call(WebViewConst.Function_DisplayFrame, Rct);
+                    keyboardHeight = mWindowVisibleDisplayFrameHeight - Rct.Call<int>(WebViewConst.Variable_Height);
                 }
             }
             return (bottom > keyboardHeight) ? bottom : keyboardHeight;
@@ -398,7 +398,7 @@ public class WebViewObject : MonoBehaviour
     public static bool IsWebViewAvailable()
     {
 #if !UNITY_EDITOR && UNITY_ANDROID
-        return (new AndroidJavaObject("net.gree.unitywebview.CWebViewPlugin")).CallStatic<bool>("IsWebViewAvailable");
+        return (new AndroidJavaObject(WebViewConst.Class_CWebViewPlugin)).CallStatic<bool>(WebViewConst.Function_IsWebViewAvailable);
 #else
         return true;
 #endif
@@ -489,16 +489,16 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_IPHONE
         webView = _CWebViewPlugin_Init(name, transparent, zoom, ua, enableWKWebView, wkContentMode, wkAllowsLinkPreview, wkAllowsBackForwardNavigationGestures, radius);
 #elif UNITY_ANDROID
-        webView = new AndroidJavaObject("net.gree.unitywebview.CWebViewPlugin");
-        webView.Call("Init", name, transparent, zoom, androidForceDarkMode, ua, radius);
+        webView = new AndroidJavaObject(WebViewConst.Class_CWebViewPlugin);
+        webView.Call(WebViewConst.Function_Init, name, transparent, zoom, androidForceDarkMode, ua, radius);
 
-        using(AndroidJavaClass UnityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        using(AndroidJavaClass UnityClass = new AndroidJavaClass(WebViewConst.Class_UnityPlayer))
         {
-            AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer").Call<AndroidJavaObject>("getView");
-            using(AndroidJavaObject Rct = new AndroidJavaObject("android.graphics.Rect"))
+            AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>(WebViewConst.Function_CurrentActivity).Get<AndroidJavaObject>(WebViewConst.Variable_UnityPlayer).Call<AndroidJavaObject>(WebViewConst.Function_GetView);
+            using(AndroidJavaObject Rct = new AndroidJavaObject(WebViewConst.Class_GraphicRect))
             {
-                View.Call("getWindowVisibleDisplayFrame", Rct);
-                mWindowVisibleDisplayFrameHeight = Rct.Call<int>("height");
+                View.Call(WebViewConst.Function_DisplayFrame, Rct);
+                mWindowVisibleDisplayFrameHeight = Rct.Call<int>(WebViewConst.Variable_Height);
             }
         }
 #else
@@ -530,7 +530,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("Destroy");
+        webView.Call(WebViewConst.Function_Destroy);
         webView = null;
 #endif
     }
@@ -548,7 +548,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("Pause");
+        webView.Call(WebViewConst.Function_Pause);
 #endif
     }
 
@@ -565,7 +565,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("Resume");
+        webView.Call(WebViewConst.Function_Resume);
 #endif
     }
 
@@ -688,7 +688,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_IPHONE
         _CWebViewPlugin_SetMargins(webView, ml, mt, mr, mb, r);
 #elif UNITY_ANDROID
-        webView.Call("SetMargins", (int)ml, (int)mt, (int)mr, (int)mb);
+        webView.Call(WebViewConst.Function_SetMargins, (int)ml, (int)mt, (int)mr, (int)mb);
 #endif
     }
 
@@ -714,7 +714,7 @@ public class WebViewObject : MonoBehaviour
         if (webView == null)
             return;
         mVisibility = v;
-        webView.Call("SetVisibility", v);
+        webView.Call(WebViewConst.Function_SetVisibility, v);
 #endif
         visibility = v;
     }
@@ -735,7 +735,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("SetScrollbarsVisibility", v);
+        webView.Call(WebViewConst.Function_SetScrollbarsVisibility, v);
 #else
         // TODO: UNSUPPORTED
 #endif
@@ -752,7 +752,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("SetInteractionEnabled", enabled);
+        webView.Call(WebViewConst.Function_SetInteractionEnabled, enabled);
 #else
         // TODO: UNSUPPORTED
 #endif
@@ -769,7 +769,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("SetAlertDialogEnabled", e);
+        webView.Call(WebViewConst.Function_SetAlertDialogEnabled, e);
 #else
         // TODO: UNSUPPORTED
 #endif
@@ -811,7 +811,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("SetCameraAccess", allowed);
+        webView.Call(WebViewConst.Function_SetCameraAccess, allowed);
 #else
         // TODO: UNSUPPORTED
 #endif
@@ -826,7 +826,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("SetMicrophoneAccess", allowed);
+        webView.Call(WebViewConst.Function_SetMicrophoneAccess, allowed);
 #else
         // TODO: UNSUPPORTED
 #endif
@@ -847,7 +847,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return false;
-        return webView.Call<bool>("SetURLPattern", allowPattern, denyPattern, hookPattern);
+        return webView.Call<bool>(WebViewConst.Function_SetURLPattern, allowPattern, denyPattern, hookPattern);
 #endif
     }
 
@@ -870,7 +870,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("LoadURL", url);
+        webView.Call(WebViewConst.Function_LoadURL, url);
 #endif
     }
 
@@ -891,7 +891,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("LoadHTML", html, baseUrl);
+        webView.Call(WebViewConst.Function_LoadHTML, html, baseUrl);
 #endif
     }
 
@@ -912,7 +912,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("EvaluateJS", js);
+        webView.Call(WebViewConst.Function_EvaluateJS, js);
 #endif
     }
 
@@ -931,7 +931,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return 0;
-        return webView.Get<int>("progress");
+        return webView.Get<int>(WebViewConst.Variable_Progress);
 #endif
     }
 
@@ -950,7 +950,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return false;
-        return webView.Get<bool>("canGoBack");
+        return webView.Get<bool>(WebViewConst.Variable_CanGoBack);
 #endif
     }
 
@@ -969,7 +969,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return false;
-        return webView.Get<bool>("canGoForward");
+        return webView.Get<bool>(WebViewConst.Variable_CanGoForward);
 #endif
     }
 
@@ -986,7 +986,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("GoBack");
+        webView.Call(WebViewConst.Function_GoBack);
 #endif
     }
 
@@ -1003,7 +1003,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("GoForward");
+        webView.Call(WebViewConst.Function_GoForward);
 #endif
     }
 
@@ -1020,7 +1020,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("Reload");
+        webView.Call(WebViewConst.Reload);
 #endif
     }
 
@@ -1100,7 +1100,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("AddCustomHeader", headerKey, headerValue);
+        webView.Call(WebViewConst.Function_AddCustomHeader, headerKey, headerValue);
 #endif
     }
 
@@ -1119,7 +1119,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return null;
-        return webView.Call<string>("GetCustomHeaderValue", headerKey);
+        return webView.Call<string>(WebViewConst.Function_GetCustomHeaderValue, headerKey);
 #endif
     }
 
@@ -1134,7 +1134,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("RemoveCustomHeader", headerKey);
+        webView.Call(WebViewConst.Function_RemoveCustomHeader, headerKey);
 #endif
     }
 
@@ -1151,7 +1151,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("ClearCustomHeader");
+        webView.Call(WebViewConst.Function_ClearCustomHeader);
 #endif
     }
 
@@ -1168,7 +1168,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID && !UNITY_EDITOR
         if (webView == null)
             return;
-        webView.Call("ClearCookies");
+        webView.Call(WebViewConst.Function_ClearCookies);
 #endif
     }
 
@@ -1186,7 +1186,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID && !UNITY_EDITOR
         if (webView == null)
             return;
-        webView.Call("SaveCookies");
+        webView.Call(WebViewConst.Function_SaveCookies);
 #endif
     }
 
@@ -1206,7 +1206,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID && !UNITY_EDITOR
         if (webView == null)
             return "";
-        return webView.Call<string>("GetCookies", url);
+        return webView.Call<string>(WebViewConst.GetCookies, url);
 #else
         //TODO: UNSUPPORTED
         return "";
@@ -1228,7 +1228,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID
         if (webView == null)
             return;
-        webView.Call("SetBasicAuthInfo", userName, password);
+        webView.Call(WebViewConst.Function_SetBasicAuthInfo, userName, password);
 #endif
     }
 
@@ -1245,7 +1245,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID && !UNITY_EDITOR
         if (webView == null)
             return;
-        webView.Call("ClearCache", includeDiskFiles);
+        webView.Call(WebViewConst.Function_ClearCache, includeDiskFiles);
 #endif
     }
 
@@ -1261,7 +1261,7 @@ public class WebViewObject : MonoBehaviour
 #elif UNITY_ANDROID && !UNITY_EDITOR
         if (webView == null)
             return;
-        webView.Call("SetTextZoom", textZoom);
+        webView.Call(WebViewConst.Function_SetTextZoom, textZoom);
 #endif
     }
 
